@@ -20,16 +20,17 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_virtual_network" "network" {
-  name                = "superFastNetwork"
+  name                = var.vn_name
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  address_space       = ["10.0.0.0/16"]
-  dns_servers         = ["10.0.0.4", "10.0.0.5"]
+  address_space       = var.vn_address_space
+ #dns_servers         = ["10.0.0.4", "10.0.0.5"]
 
-  subnet {
+/*
+subnet {
     name             = "subnet1"
     address_prefix = "10.0.1.0/24"
-  }
+  }*/
 }
 
 # this is now an "input" value 
@@ -43,3 +44,12 @@ variable "rg_name" {
   default = "TanksTinyRG"
 }
 
+variable "vn_name" {
+  type    = string
+  default = "superFastNetwork"
+}
+
+variable "vn_address_space" {
+  type = list(string)
+  default = ["10.0.0.0/16"]
+}
